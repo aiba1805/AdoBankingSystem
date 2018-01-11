@@ -17,7 +17,7 @@ namespace AdoBankingSystem.ClientUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RegistrationWindow());
+            Application.Run(new TransactionForm());
         }
     }
 }
