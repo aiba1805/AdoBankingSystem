@@ -15,7 +15,7 @@ namespace AdoBankingSystem.UnitTests.Services
         public void IsConnectionAvailable()
         {
             RabbitMqBusService rbq = new RabbitMqBusService();
-            var connection = rbq.IsConnectionAvailable();
+            //var connection = rbq.IsConnectionAvailable();
 
         }
 

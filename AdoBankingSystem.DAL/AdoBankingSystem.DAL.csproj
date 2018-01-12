@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAOs\BankClientDao.cs" />
+    <Compile Include="DAOs\BankManagerDao.cs" />
     <Compile Include="DAOs\OfflineDao.cs" />
     <Compile Include="DAOs\CurrentSessionDao.cs" />
     <Compile Include="DAOs\TransactionDao.cs" />

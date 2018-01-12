@@ -34,5 +34,10 @@ namespace AdoBankingSystem.Shared.DTOs
         {
 
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

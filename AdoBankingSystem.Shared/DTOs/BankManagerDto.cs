@@ -13,5 +13,13 @@ namespace AdoBankingSystem.Shared.DTOs
             string password, string passwordConfirmation)
         {
         }
+        public BankManagerDto()
+        {
+
+        }
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

@@ -58,7 +58,59 @@ namespace AdoBankingSystem.DAL.DAOs
 
         public BankClientDto Read(string id)
         {
-            throw new NotImplementedException();
+            BankClientDto clientDto = null;
+
+            using (sqlConnection = DatabaseConnectionFactory.GetConnection())
+
+            {
+
+                string sqlCode = String.Format(@"SELECT * FROM [dbo].[BankClients] WHERE Id = '{0}'", id.ToString());
+
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = new SqlCommand(sqlCode, sqlConnection))
+
+                {
+
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+
+
+
+                    reader.Read();
+
+
+
+                    clientDto = new BankClientDto()
+
+                    {
+
+                        Id = reader["Id"].ToString(),
+
+                        Email = reader["Email"].ToString(),
+
+                        FirstName = reader["FirstName"].ToString(),
+
+                        CreatedTime = DateTime.Parse(reader["CreatedTime"].ToString()),
+
+                        LastName = reader["LastName"].ToString(),
+
+                        PasswordHash = reader["PasswordHash"].ToString(),
+
+                        ApplicationClientType = (ApplicationClientType)Int32.Parse(reader["ApplicationClientType"].ToString()),
+
+                        EntityStatus = (EntityStatusType)Int32.Parse(reader["EntityStatusType"].ToString())
+
+
+
+                    };
+
+                }
+
+                sqlConnection.Close();
+
+            }
+
+            return clientDto;
         }
 
         public ICollection<BankClientDto> Read()
@@ -98,12 +150,93 @@ namespace AdoBankingSystem.DAL.DAOs
 
         public void Remove(string id)
         {
-            throw new NotImplementedException();
+            using(sqlConnection = DatabaseConnectionFactory.GetConnection())
+
+            {
+
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
+
+                {
+
+                    string realInsertQuery = String.Format(@"DELETE FROM [dbo].[BankClients] WHERE Id = '{0}'", id.ToString());
+
+                    sqlCommand.CommandText = realInsertQuery;
+
+                    sqlCommand.CommandType = CommandType.Text;
+
+
+
+                    int result = sqlCommand.ExecuteNonQuery();
+
+                    Console.WriteLine(result);
+
+                }
+
+                sqlConnection.Close();
+
+            }
         }
 
-        public string Update(BankClientDto record)
+        public string Update(BankClientDto t)
         {
-            throw new NotImplementedException();
+            string res = string.Empty;
+
+            using (sqlConnection = DatabaseConnectionFactory.GetConnection())
+
+            {
+
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
+
+                {
+
+                    string baseInsertQuery = @"UPDATE [dbo].[BankClients]
+
+                           SET [Email] = '{1}'
+
+                              ,[FirstName] = '{2}'
+
+                              ,[LastName] = '{3}'
+
+                              ,[PasswordHash] = '{4}'
+
+                              ,[CreatedTime] = '{5}'
+
+                              ,[EntityStatus] = {6}
+
+                              ,[ApplicationClientType] = {7}
+
+                            WHERE Id = '{0}'";
+
+                    string realInsertQuery = String.Format(baseInsertQuery,
+
+                         t.Id, t.Email, t.FirstName, t.LastName,
+
+                        t.PasswordHash, t.CreatedTime.ToString()
+
+                        , (int)t.EntityStatus, (int)t.ApplicationClientType);
+
+
+
+                    sqlCommand.CommandText = realInsertQuery;
+
+                    sqlCommand.CommandType = CommandType.Text;
+
+
+
+                    res = sqlCommand.ExecuteNonQuery().ToString();
+
+                }
+
+                sqlConnection.Close();
+
+            }
+
+            return res;
         }
+
     }
 }
